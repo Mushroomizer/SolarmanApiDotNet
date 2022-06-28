@@ -37,3 +37,8 @@
 - Run the SolarmanApi project
 - Open your browser on http://localhost:5555/swagger/index.html
 - Execute /api/Solarman/GetCurrentLiveData 
+
+
+Here is what it looks like if its working correctly
+![image](https://user-images.githubusercontent.com/4478381/176170948-37166a03-f49f-4691-9998-a1350af84599.png)
+
