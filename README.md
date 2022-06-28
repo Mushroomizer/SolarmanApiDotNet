@@ -4,6 +4,7 @@
 
 ### Setting up your appsettings
 - Send an email to service@solarmanpv.com requesting api access (this is a conversation, so they will ask you some questions)
+- Next you need to set the values in appsettings.json to your info, explained below:
 #### appsettings.json explained:
 ```
  "Logging": {
