@@ -22,7 +22,8 @@ namespace SolarmanApi.ScheduledServices
             _logger.LogInformation($"Generation: {data.generationPower.ToString()}");
             _logger.LogInformation($"Grid power: {data.gridPower.ToString()}");
 
-            if (data.gridPower == 0)
+            // data.gridPower does not represent purchased power, so using wirePower instead
+            if (data.wirePower == 0)
             {
                 _logger.LogWarning("Grid is offline!!!");
             }
