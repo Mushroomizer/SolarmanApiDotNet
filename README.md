@@ -30,6 +30,12 @@
         "appId": "", // Provided by these guys service@solarmanpv.com
         "email": example@example.com", // The email you use to login here https://home.solarmanpv.com/
         "password": "" // Your password (SHA256 hashed, you can do it here https://sha256.online/)
+    },
+    "CronOptions": [
+    {
+      "serviceName": "ScheduledGetLiveData", // name of ISheduledservice
+      "schedule": "*/10 * * * *", // Normal crons tring, leave as is for every 10 minutes
+      "runOnStart": true // runs when the schedule is started
     }
 ```    
 
