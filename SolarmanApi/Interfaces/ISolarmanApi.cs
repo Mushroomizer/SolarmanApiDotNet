@@ -3,10 +3,8 @@ using SolarmanApi.Models;
 
 namespace SolarmanApi.Interfaces
 {
-  public interface ISolarmanApi
-  {
-      public Task<RealtimeDataResponse> GetRealtimeData();
-  }  
+    public interface ISolarmanApi
+    {
+        public Task<RealtimeDataResponse> GetRealtimeDataAsync();
+    }
 }
-
-

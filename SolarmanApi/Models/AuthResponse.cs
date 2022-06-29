@@ -10,6 +10,4 @@ namespace SolarmanApi.Models
 
         [JsonProperty("expires_in")] public int ExpiresIn { get; set; }
     }
-
 }
-

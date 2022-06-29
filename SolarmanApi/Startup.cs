@@ -1,13 +1,16 @@
-﻿using System.Reflection.Metadata;
+﻿using System.Reflection;
+using Hangfire;
+using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Rest.Net.Interfaces;
+using Serilog;
+using SolarmanApi.Extensions;
 using SolarmanApi.Interfaces;
 using SolarmanApi.Options;
 using SolarmanApi.Services;
@@ -19,6 +22,10 @@ namespace SolarmanApi
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .CreateLogger();
         }
 
         public IConfiguration Configuration { get; }
@@ -31,6 +38,7 @@ namespace SolarmanApi
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "SolarmanApi", Version = "v1"}); });
 
             ConfigureCustomServices(services);
+            ConfigureHangfire(services);
         }
 
         private void ConfigureCustomServices(IServiceCollection services)
@@ -41,10 +49,30 @@ namespace SolarmanApi
             services.AddSingleton<IAuthentication, SolarmanAuthentication>();
             services.AddSingleton<ISolarmanApi, SolarmanApiV1>();
 
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore
             };
+        }
+
+        public void ConfigureHangfire(IServiceCollection services)
+        {
+            services.AddHangfire(c =>
+            {
+                c.UseSimpleAssemblyNameTypeSerializer();
+                c.UseRecommendedSerializerSettings();
+                c.UseMemoryStorage();
+            });
+
+            services.AddHangfireServer();
+            StartScheduledServices(services);
+        }
+
+        public void StartScheduledServices(IServiceCollection services)
+        {
+            services.Configure<CronOptions>(Configuration.GetSection(nameof(CronOptions)));
+            services.RegisterAllTypes<IScheduledService>(new[] {Assembly.GetExecutingAssembly(), Assembly.GetEntryAssembly()}!, ServiceLifetime.Singleton);
+            services.AddHostedService<ScheduledServiceScheduler>();
         }
 
 

@@ -15,4 +15,3 @@
         public double lastUpdateTime { get; set; }
     }
 }
-
