@@ -2,6 +2,12 @@
 
 ## [WIP]
 
+This project aims to simplify integration with the solarman API.
+
+Current features
+- Rest API with endpoint to get plant live data
+- Scheduled service (Configurable schedule) that periodically gets the live data and logs warnings when batteries are discharging/grid is offile
+
 ### Setting up your appsettings
 - Send an email to service@solarmanpv.com requesting api access (this is a conversation, so they will ask you some questions)
 - Next you need to set the values in appsettings.json to your info, explained below:
