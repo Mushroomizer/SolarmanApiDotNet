@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SolarmanApi.Interfaces;
-using SolarmanApi.Services;
 
 namespace SolarmanApi.Controllers
 {
@@ -11,8 +10,8 @@ namespace SolarmanApi.Controllers
     [ApiController]
     public class SolarmanController : ControllerBase
     {
-        private readonly ISolarmanApi _solarmanApi;
         private readonly ILogger<SolarmanController> _logger;
+        private readonly ISolarmanApi _solarmanApi;
 
         public SolarmanController(ISolarmanApi solarmanApi, ILogger<SolarmanController> logger)
         {
@@ -25,13 +24,12 @@ namespace SolarmanApi.Controllers
         {
             try
             {
-                return Ok(await _solarmanApi.GetRealtimeData());
+                return Ok(await _solarmanApi.GetRealtimeDataAsync());
             }
             catch (Exception e)
             {
                 return BadRequest($"{e.Message}\n{e.StackTrace}");
             }
         }
-        
     }
 }

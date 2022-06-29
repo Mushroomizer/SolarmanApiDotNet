@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace SolarmanApi.Models
+﻿namespace SolarmanApi.Models
 {
     public class BaseResponse
     {
@@ -10,4 +8,3 @@ namespace SolarmanApi.Models
         public string requestId { get; set; }
     }
 }
-

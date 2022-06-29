@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Net.Http;
+using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -16,7 +15,8 @@ namespace SolarmanApi.Services
     {
         private readonly SolarmanAuthenticationOptions _authenticationOptions;
         private readonly ILogger<SolarmanAuthentication> _logger;
-        private IRestClient _restClient;
+
+        private readonly IRestClient _restClient;
 
         private string
             _issuer,
@@ -56,13 +56,13 @@ namespace SolarmanApi.Services
             client.Headers.Add("Content-Type", "application/json");
             client.AddParameter("appId", _authenticationOptions.appId);
             client.AddParameter("language", "en");
-            
-            var response = await client.PostAsync<AuthResponse>("/account/v1.0/token",new
+
+            var response = await client.PostAsync<AuthResponse>("/account/v1.0/token", new
             {
                 _authenticationOptions.appSecret, _authenticationOptions.email, _authenticationOptions.password
-            },false);
+            }, false);
 
-            if (response.StatusCode == System.Net.HttpStatusCode.OK && !string.IsNullOrEmpty(response.Data.AccessToken))
+            if (response.StatusCode == HttpStatusCode.OK && !string.IsNullOrEmpty(response.Data.AccessToken))
             {
                 _token = response.Data.AccessToken;
                 _refreshToken = response.Data.RefreshToken;

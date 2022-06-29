@@ -24,6 +24,5 @@
         public string networkStatus { get; set; }
         public double generationPower { get; set; }
         public double lastUpdateTime { get; set; }
-    } 
+    }
 }
-
