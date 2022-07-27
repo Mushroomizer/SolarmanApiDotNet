@@ -12,6 +12,6 @@
         public double batteryPower { get; set; }
         public double batterySoc { get; set; }
         public double irradiateIntensity { get; set; }
-        public double lastUpdateTime { get; set; }
+        public long lastUpdateTime { get; set; }
     }
 }

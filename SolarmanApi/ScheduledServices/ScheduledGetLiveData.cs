@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using SolarmanApi.Interfaces;
 
 namespace SolarmanApi.ScheduledServices
@@ -18,10 +20,9 @@ namespace SolarmanApi.ScheduledServices
         public async Task Execute()
         {
             var data = await _solarmanApi.GetRealtimeDataAsync();
-            _logger.LogInformation($"Battery level: {data.batterySoc.ToString()}");
-            _logger.LogInformation($"Generation: {data.generationPower.ToString()}");
-            _logger.LogInformation($"Grid power: {data.gridPower.ToString()}");
-
+            _logger.LogInformation($"Realtime Data: {JsonConvert.SerializeObject(data)}");
+            var lastUpdatedDatetime = DateTimeOffset.FromUnixTimeSeconds(data.lastUpdateTime).DateTime;
+            _logger.LogInformation($"Last updated at: {lastUpdatedDatetime.ToString()}");
             // data.gridPower does not represent purchased power, so using wirePower instead
             if (data.wirePower == 0)
             {
