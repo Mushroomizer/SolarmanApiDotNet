@@ -44,7 +44,7 @@ This project aims to simplify integration with the solarman API.
         "appSecret": "", // Provided by these guys service@solarmanpv.com 
         "appId": "", // Provided by these guys service@solarmanpv.com
         "email": example@example.com", // The email you use to login here https://home.solarmanpv.com/
-        "password": "" // Your password (SHA256 hashed, you can do it here https://sha256.online/)
+        "password": "" // Your password (SHA256 hashed, you can do it here https://sha256.online/) Passwords longer than 16 characters and containing special characters may not work!
     },
     "CronOptions": [
     {
