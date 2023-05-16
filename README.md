@@ -37,10 +37,10 @@ This project aims to simplify integration with the solarman API.
     },
     "AllowedHosts": "*",
     "SolarmanApiOptions": {
-        "BaseUrl": "https://api.solarmanpv.com" // Where to send network requests to
+        "BaseUrl": "https://globalapi.solarmanpv.com" // Where to send network requests to
     },  
   "SolarmanAuthenticationOptions": {
-        "issuer": "https://api.solarmanpv.com", // Where to get an auth token from (this is configurable in the case a different identity provider should be used)
+        "issuer": "https://globalapi.solarmanpv.com", // Where to get an auth token from (this is configurable in the case a different identity provider should be used)
         "appSecret": "", // Provided by these guys service@solarmanpv.com 
         "appId": "", // Provided by these guys service@solarmanpv.com
         "email": example@example.com", // The email you use to login here https://home.solarmanpv.com/
