@@ -75,7 +75,7 @@ namespace SolarmanApi.Services
                 _token = null;
                 _refreshToken = null;
                 _tokenExpiration = DateTime.MinValue;
-                _logger.LogDebug($"Could not set token: {JsonConvert.SerializeObject(response)}");
+                _logger.LogError($"Could not set token: {JsonConvert.SerializeObject(response)}");
             }
 
             return response.Data;
