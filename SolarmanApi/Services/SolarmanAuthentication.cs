@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Security.Authentication;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -51,7 +52,7 @@ namespace SolarmanApi.Services
 
         public async Task<AuthResponse> Login()
         {
-            _logger.LogDebug("Getting bearer token...");
+            _logger.LogInformation("Getting bearer token...");
             var client = new RestClient(_authenticationOptions.issuer);
             client.Headers.Add("Content-Type", "application/json");
             client.AddParameter("appId", _authenticationOptions.appId);
@@ -68,7 +69,7 @@ namespace SolarmanApi.Services
                 _refreshToken = response.Data.RefreshToken;
                 _tokenExpiration = DateTime.Now.AddSeconds(response.Data.ExpiresIn - 60);
 
-                _logger.LogDebug("Token retrieved");
+                _logger.LogInformation("Token retrieved");
             }
             else
             {
@@ -76,6 +77,7 @@ namespace SolarmanApi.Services
                 _refreshToken = null;
                 _tokenExpiration = DateTime.MinValue;
                 _logger.LogError($"Could not set token: {JsonConvert.SerializeObject(response)}");
+                throw new AuthenticationException($"Could not set token: {JsonConvert.SerializeObject(response)}");
             }
 
             return response.Data;
