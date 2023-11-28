@@ -9,6 +9,8 @@ using Rest.Net;
 using Rest.Net.Authenticators;
 using Rest.Net.Interfaces;
 using SolarmanApi.Options;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace SolarmanApi.Services
 {
@@ -52,6 +54,8 @@ namespace SolarmanApi.Services
 
         public async Task<AuthResponse> Login()
         {
+            String password = getHashSha256(_authenticationOptions.password);
+            //26afa885a151261bfd49bcbbb6b5e3d2ec6f7a72598940232ad5439685f5aa17
             _logger.LogInformation("Getting bearer token...");
             var client = new RestClient(_authenticationOptions.issuer);
             client.Headers.Add("Content-Type", "application/json");
@@ -60,7 +64,9 @@ namespace SolarmanApi.Services
 
             var response = await client.PostAsync<AuthResponse>("/account/v1.0/token", new
             {
-                _authenticationOptions.appSecret, _authenticationOptions.email, _authenticationOptions.password
+                _authenticationOptions.appSecret,
+                _authenticationOptions.email,
+                password
             }, false);
 
             if (response.StatusCode == HttpStatusCode.OK && !string.IsNullOrEmpty(response.Data.AccessToken))
@@ -81,6 +87,19 @@ namespace SolarmanApi.Services
             }
 
             return response.Data;
+        }
+
+        public static string getHashSha256(string text)
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(text);
+            SHA256Managed hashstring = new SHA256Managed();
+            byte[] hash = hashstring.ComputeHash(bytes);
+            string hashString = string.Empty;
+            foreach (byte x in hash)
+            {
+                hashString += String.Format("{0:x2}", x);
+            }
+            return hashString;
         }
     }
 }
