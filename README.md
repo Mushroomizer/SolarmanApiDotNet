@@ -9,7 +9,7 @@ This project aims to simplify integration with the solarman API.
 - Scheduled service (Configurable schedule) that periodically gets the live data and logs warnings when batteries are discharging/grid is offile
 
 ### Planned Features
-- Send email to configurable adres when some state has been reached
+- Send email to configurable addres when some state has been reached
 - Send push notification to companion mobile app (mobile app not yet implemented) for custom alerts (Mobile app will register on this server, so no further integration needed)
 - Authentication via 3rd party (google, facebook etc.) to secure data
 - Full solarman Api integration (will probably not use most of the endpoints, but implementing the requests and responses might be useful for future development)
